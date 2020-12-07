@@ -1,0 +1,48 @@
+
+body{
+    background-image: url("../img/background.jpg");
+    
+}
+
+h1{
+    margin-top:200px;
+    margin-left:150px;
+    margin-right:150px;
+    font-size: 40px;
+    background-color:rgba(60, 250, 240, 0.452);
+    border-radius:20px;
+    font-family: Helvetica;
+    text-align: center;
+}
+main{
+    padding-top:20px;
+    padding-bottom:20px;
+    margin-left: 150px;
+    margin-right:150px;
+    background-color: rgba(60, 250, 240, 0.452);
+    border-radius:20px;
+    text-align: center;
+    align-items: center;
+}
+input{
+    margin: 10px 2px;
+    padding: 5px 5px;
+    border-radius: 10px;
+}
+.textlogin{
+    font-size: 25px;
+    margin: 0px auto;
+    font-family:Helvetica;
+    font-weight: bold;
+}
+.boton{
+    font-family: Helvetica;
+    font-size: 18px;
+    font-weight: bold;
+    width:8em;
+    height:2em;
+}
+.boton:hover{
+    background-color:greenyellow;
+}
+
