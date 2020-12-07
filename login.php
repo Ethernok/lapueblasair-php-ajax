@@ -60,11 +60,7 @@
 						</button>
 					</div>
 					
-					<div class="text-center w-full p-t-23">
-						<a href="registrar.php" class="txt1" name="register">
-							Registrarse
-						</a>
-					</div>
+					
 				</form>
 			</div>
 		</div>

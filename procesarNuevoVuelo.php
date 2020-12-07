@@ -17,9 +17,9 @@
             $result = $query->execute([$id]);
             $vueloResultado = $query->fetchAll(PDO::FETCH_OBJ);
             if(array_count_values($usuarioResultado) >= 1){
-                
-                header('Location: index.php');
                 echo "<script language=JavaScript>alert('El ID introducido ya está en uso');</script>";
+                header('Location: index.php');
+                
             }
             $query = $db->connect->prepare("INSERT INTO vuelos(id_vuelo, vuelo, origen, destino, horario, compañia) VALUES(?,?,?,?,?,?);");
             $result = $query->execute([$id, $vuelo, $origen, $destino, $horario, $compania]);
@@ -27,9 +27,10 @@
             header('Location: index.php');
             
         }catch(Exception $e){
+            echo "<script language=JavaScript>alert('Ha ocurrido un error y no se ha creado el vuelo, intentelo de nuevo.');</script>";
             header('Location: index.php');
             throw new Exception("Error, comprueba de nuevo los datos", 1);
-            echo "<script language=JavaScript>alert('Ha ocurrido un error y no se ha creado el vuelo, intentelo de nuevo.');</script>";
+            
             
         }
         
