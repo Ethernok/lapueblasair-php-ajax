@@ -5,8 +5,7 @@ session_start();
 if (!isset($_SESSION['nombre'])) {
   header('Location: login.php');
 }
-$query = $db->connect->query("SELECT * FROM vuelos ORDER BY id_vuelo;");
-$vuelos = $query->fetchAll(PDO::FETCH_OBJ);
+$vuelos = $db->getListaVuelos();
 
 ?>
 
@@ -165,7 +164,7 @@ $vuelos = $query->fetchAll(PDO::FETCH_OBJ);
 
             <!-- Form Name -->
             <legend><a href="logout.php">Cerrar sesion</a>
-              <h1>Bienvenido/a, <?php echo $_SESSION['nombre']; ?>.</h1>
+              <h1>Bienvenido/a, <?php  print_r($_SESSION['nombre']); ?>.</h1>
               
             </legend>
 
@@ -211,7 +210,6 @@ $vuelos = $query->fetchAll(PDO::FETCH_OBJ);
                     <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
                     <i class="glyphicon glyphicon-trash text-danger"></i>
                     </button>
-                    <!--<a href="eliminar.php?id=<?php echo $vuelo->id_vuelo; ?>" title="Eliminar" class="btn btn-default btn-sm btn-edit"> <i class="glyphicon glyphicon-trash text-danger"></i> </a>-->
                   </td>
                 <?php
               }
@@ -247,8 +245,7 @@ $vuelos = $query->fetchAll(PDO::FETCH_OBJ);
       });
     });
   </script>
-
-
+  
 <!--Script para modal de editar -->
   <script>
     $(document).ready(function() {

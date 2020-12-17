@@ -1,5 +1,5 @@
 <?php
-include ('conexion.php');
+include 'conexion.php';
 $db = new db();
     session_start();
     session_destroy();

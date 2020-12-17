@@ -1,6 +1,8 @@
 <?php
+include 'conexion.php';
 	session_start();
-	if (isset($_SESSION['usuario'])){
+	$db = new db();
+	if (isset($_SESSION['nombre'])){
 		header('Location: index.php');
 	}
 ?>
