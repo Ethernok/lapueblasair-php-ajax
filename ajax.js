@@ -1,6 +1,6 @@
-$(editarAsync());
+$(obtenerDatos());
 
-function editarAsync(datos)
+function obtenerDatos(datos)
 {
 	$.ajax({
 		url : 'procesarEditar.php',

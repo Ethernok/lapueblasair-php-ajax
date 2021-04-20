@@ -16,17 +16,16 @@ $vuelos = $db->getListaVuelos();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio</title>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
 <body>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
+ 
 
   <!--########################### Modal Añadir #############################-->
 
@@ -194,17 +193,17 @@ $vuelos = $db->getListaVuelos();
               </tr>
             </thead>
             
-            <tbody id="form-list-client-body">
+            <tbody id="form-list-client-body" id="cuerpo-tabla">
               <?php
               foreach ($vuelos as $vuelo) {
               ?>
-                <tr>
-                  <td><?php echo $vuelo->id_vuelo; ?></td>
-                  <td><?php echo $vuelo->vuelo; ?></td>
-                  <td><?php echo $vuelo->origen; ?></td>
-                  <td><?php echo $vuelo->destino; ?></td>
-                  <td><?php echo $vuelo->horario; ?></td>
-                  <td><?php echo $vuelo->compañia; ?></td>
+                <tr class="id-vuelos" id='<?php echo $vuelo->id_vuelo; ?>'>
+                  <td id='id-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->id_vuelo; ?></td>
+                  <td id='vuelo-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->vuelo; ?></td>
+                  <td id='origen-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->origen; ?></td>
+                  <td id='destino-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->destino; ?></td>
+                  <td id='horario-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->horario; ?></td>
+                  <td id='compania-<?php echo $vuelo->id_vuelo; ?>'><?php echo $vuelo->compañia; ?></td>
                   <td>
                     <button type="button" data-toggle="modal" data-target="editModal" class="btn btn-default btn-sm editbtn "><i class="glyphicon glyphicon-edit text-primary"></i></button>
                     <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
@@ -226,26 +225,9 @@ $vuelos = $db->getListaVuelos();
       </div>
     </div>
   </div>
-  <!--Script para modal de eliminar -->
-  <script>
-    $(document).ready(function() {
-      $('.deletebtn').on('click', function() {
-        $('#deleteModal').modal('show');
 
-        $tr = $(this).closest('tr');
+  <script type="javascript" src="./ajax.js" ></script>
 
-        var data = $tr.children("td").map(function() {
-          return $(this).text();
-        }).get();
-        console.log(data);
-
-        $('#deleteId').val(data[0]);
-        
-
-      });
-    });
-  </script>
-  
 <!--Script para modal de editar -->
   <script>
     $(document).ready(function() {
@@ -279,14 +261,37 @@ $vuelos = $db->getListaVuelos();
         editHorarioVuelo: $('#editHorarioVuelo').val(),
         editCompaniaVuelo: $('#editCompaniaVuelo').val()
       }
+      
     $.ajax({
         data: datos,
         url: 'procesarEditar.php',
         type:'POST',
         beforeSend:function(){},
         success:(response)=>{
-          console.log(response);
-          $('#tabla-vuelos').ajax.reload();
+          id = datos.editId;
+          countVuelos = $('.id-vuelos').length;
+          for(i = 1; i < countVuelos; i++){
+            console.log(id);
+            if(i == id){
+              console.log("Reemplazado correctamente");
+              $(`tr#${i} #${datos.id}`).replaceWith(`
+              <tr class="id-vuelos" id='${datos.editId}'>
+                  <td>${datos.editId}</td>
+                  <td>${datos.editVuelo}</td>
+                  <td>${datos.editOrigenVuelo}</td>
+                  <td>${datos.editDestinoVuelo}</td>
+                  <td>${datos.editHorarioVuelo}</td>
+                  <td>${datos.editCompaniaVuelo}</td>
+                  <td>
+                    <button type="button" data-toggle="modal" data-target="editModal" class="btn btn-default btn-sm editbtn "><i class="glyphicon glyphicon-edit text-primary"></i></button>
+                    <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
+                    <i class="glyphicon glyphicon-trash text-danger"></i>
+                    </button>
+                  </td>
+                  </tr>`)
+            }
+          }
+          //$("#cuerpo-tabla").load("procesarEditar.php");
           console.log("Se editó correctamente");
         }
       })
@@ -295,6 +300,26 @@ $vuelos = $db->getListaVuelos();
     });
     
   </script>
+    <!--Script para modal de eliminar -->
+    <script>
+    $(document).ready(function() {
+      $('.deletebtn').on('click', function() {
+        $('#deleteModal').modal('show');
+
+        $tr = $(this).closest('tr');
+
+        var data = $tr.children("td").map(function() {
+          return $(this).text();
+        }).get();
+        console.log(data);
+
+        $('#deleteId').val(data[0]);
+        
+
+      });
+    });
+  </script>
+  
 </body>
 
 </html>
