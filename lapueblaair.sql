@@ -10,7 +10,7 @@ nombre varchar(30) NOT NULL
 );
 INSERT INTO Usuarios VALUES 
 (1,'admin','admin','Administrador'),
-(2,'alberto','12345','Alberto Dominguez'),
+(2,'emilio','12345','Emilio Gomez'),
 (3,'paco','12345','Paco Garcia');
 
 CREATE TABLE `compañias` (

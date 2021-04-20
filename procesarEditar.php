@@ -15,5 +15,4 @@ else{
         $compania = $_POST['editCompaniaVuelo'];
         $db->editarVuelo($id, $vuelo, $origen, $destino, $horario, $compania);
         
-    
 }

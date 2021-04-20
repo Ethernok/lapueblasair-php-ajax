@@ -76,7 +76,7 @@ class db
             throw new Exception("Error, comprueba de nuevo los datos", 1);
         }
     }
-    
+
     public function editarVuelo($id, $vuelo, $origen, $destino, $horario, $compania)
     {
         try {
@@ -94,5 +94,43 @@ class db
         $query = $this->connect->prepare("DELETE FROM vuelos WHERE id_vuelo = ?;");
         $query->execute([$id]);
         header('Location: index.php');
+    }
+    /** Funcion que muestra la tabla de los vuelos */
+    public function mostrarTabla()
+    {
+        echo `<thead>
+              <tr>
+                <th>ID</th>
+                <th>Vuelo</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Horario</th>
+                <th>Compañia</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="form-list-client-body">
+              `;
+
+        $vuelos = $this->getListaVuelos();
+        foreach ($vuelos as $vuelo) {
+
+            echo `<tr>
+                  <td>$vuelo->id_vuelo</td>
+                  <td>$vuelo->vuelo</td>
+                  <td>$vuelo->origen</td>
+                  <td>$vuelo->destino</td>
+                  <td>$vuelo->horario</td>
+                  <td>$vuelo->compañia</td>
+                  <td>
+                    <button type="button" data-toggle="modal" data-target="editModal" class="btn btn-default btn-sm editbtn "><i class="glyphicon glyphicon-edit text-primary"></i></button>
+                    <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
+                    <i class="glyphicon glyphicon-trash text-danger"></i>
+                    </button>
+                  </td>
+                </tr>
+            </tbody>
+        `;
+        }
     }
 }

@@ -69,7 +69,7 @@ $vuelos = $db->getListaVuelos();
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" mane="guardar" class="btn btn-primary">Añadir Vuelo</button>
+            <button type="submit" name="guardar" class="btn btn-primary">Añadir Vuelo</button>
           </div>
         </form>
       </div>
@@ -89,7 +89,7 @@ $vuelos = $db->getListaVuelos();
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="procesarEditar.php" method="POST">
+        <form id="form-edit">
 
           <div class="modal-body">
             <div class="form-group">
@@ -119,7 +119,7 @@ $vuelos = $db->getListaVuelos();
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="submit" name="updatedata" class="btn btn-primary">Aceptar cambios</button>
+            <button type="button" name="updatedata" class="btn btn-primary" id="update-data">Aceptar cambios</button>
           </div>
         </form>
       </div>
@@ -181,8 +181,8 @@ $vuelos = $db->getListaVuelos();
           <legend>Lista de Vuelos</legend>
 
 
-          <table class="table table-bordered table-condensed table-hover">
-            <thead>
+          <table class="table table-bordered table-condensed table-hover" id="tabla-vuelos">
+          <thead>
               <tr>
                 <th>ID</th>
                 <th>Vuelo</th>
@@ -192,8 +192,8 @@ $vuelos = $db->getListaVuelos();
                 <th>Compañia</th>
                 <th>Acciones</th>
               </tr>
-
             </thead>
+            
             <tbody id="form-list-client-body">
               <?php
               foreach ($vuelos as $vuelo) {
@@ -265,10 +265,35 @@ $vuelos = $db->getListaVuelos();
         $('#editDestinoVuelo').val(data[3]);
         $('#editHorarioVuelo').val(data[4]);
         $('#editCompaniaVuelo').val(data[5]);
-
+        
 
       });
+
+      $('#update-data').on('click',function(){  
+      
+      datos = {
+        editId: $('#editId').val(),
+        editVuelo: $('#editVuelo').val(),
+        editOrigenVuelo: $('#editOrigenVuelo').val(),
+        editDestinoVuelo: $('#editDestinoVuelo').val(),
+        editHorarioVuelo: $('#editHorarioVuelo').val(),
+        editCompaniaVuelo: $('#editCompaniaVuelo').val()
+      }
+    $.ajax({
+        data: datos,
+        url: 'procesarEditar.php',
+        type:'POST',
+        beforeSend:function(){},
+        success:(response)=>{
+          console.log(response);
+          $('#tabla-vuelos').ajax.reload();
+          console.log("Se editó correctamente");
+        }
+      })
+      $('#editModal').modal('hide');
     });
+    });
+    
   </script>
 </body>
 
