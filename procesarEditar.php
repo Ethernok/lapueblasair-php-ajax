@@ -2,10 +2,7 @@
 include 'conexion.php';
 $db = new db();
 session_start();
-if(!isset($_SESSION['nombre'])){
-    exit();
-}
-else{
+
     
         $id = $_POST['editId'];
         $vuelo = $_POST['editVuelo'];
@@ -15,4 +12,4 @@ else{
         $compania = $_POST['editCompaniaVuelo'];
         $db->editarVuelo($id, $vuelo, $origen, $destino, $horario, $compania);
         
-}
+?>

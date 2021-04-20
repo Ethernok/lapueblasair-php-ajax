@@ -163,7 +163,7 @@ $vuelos = $db->getListaVuelos();
 
             <!-- Form Name -->
             <legend><a href="logout.php">Cerrar sesion</a>
-              <h1>Bienvenido/a, <?php print_r($_SESSION['nombre']); ?>.</h1>
+              <h1>Bienvenido/a.</h1>
 
             </legend>
 
