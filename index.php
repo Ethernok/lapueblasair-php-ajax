@@ -1,10 +1,10 @@
 <?php
 include 'conexion.php';
 $db = new db();
-session_start();
+/*session_start();
 if (!isset($_SESSION['nombre'])) {
   header('Location: login.php');
-}
+}*/
 $vuelos = $db->getListaVuelos();
 
 ?>
@@ -17,15 +17,15 @@ $vuelos = $db->getListaVuelos();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inicio</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
-  
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 
 <body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 
- 
+
 
   <!--########################### Modal Añadir #############################-->
 
@@ -126,8 +126,8 @@ $vuelos = $db->getListaVuelos();
   </div>
   <!--########################### Modal editar #############################-->
 
-<!--############## Modal Eliminar ################# -->
-<div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!--############## Modal Eliminar ################# -->
+  <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -149,7 +149,7 @@ $vuelos = $db->getListaVuelos();
       </div>
     </div>
   </div>
-<!--############## Modal Eliminar ################# -->
+  <!--############## Modal Eliminar ################# -->
   <div class="container">
     <div class="row">
 
@@ -163,8 +163,8 @@ $vuelos = $db->getListaVuelos();
 
             <!-- Form Name -->
             <legend><a href="logout.php">Cerrar sesion</a>
-              <h1>Bienvenido/a, <?php  print_r($_SESSION['nombre']); ?>.</h1>
-              
+              <h1>Bienvenido/a, <?php print_r($_SESSION['nombre']); ?>.</h1>
+
             </legend>
 
           </fieldset>
@@ -181,7 +181,7 @@ $vuelos = $db->getListaVuelos();
 
 
           <table class="table table-bordered table-condensed table-hover" id="tabla-vuelos">
-          <thead>
+            <thead>
               <tr>
                 <th>ID</th>
                 <th>Vuelo</th>
@@ -192,7 +192,7 @@ $vuelos = $db->getListaVuelos();
                 <th>Acciones</th>
               </tr>
             </thead>
-            
+
             <tbody id="form-list-client-body" id="cuerpo-tabla">
               <?php
               foreach ($vuelos as $vuelo) {
@@ -207,7 +207,7 @@ $vuelos = $db->getListaVuelos();
                   <td>
                     <button type="button" data-toggle="modal" data-target="editModal" class="btn btn-default btn-sm editbtn "><i class="glyphicon glyphicon-edit text-primary"></i></button>
                     <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
-                    <i class="glyphicon glyphicon-trash text-danger"></i>
+                      <i class="glyphicon glyphicon-trash text-danger"></i>
                     </button>
                   </td>
                 <?php
@@ -226,9 +226,9 @@ $vuelos = $db->getListaVuelos();
     </div>
   </div>
 
-  <script type="javascript" src="./ajax.js" ></script>
+  <script type="javascript" src="./ajax.js"></script>
 
-<!--Script para modal de editar -->
+  <!--Script para modal de editar -->
   <script>
     $(document).ready(function() {
       $('.editbtn').on('click', function() {
@@ -247,61 +247,52 @@ $vuelos = $db->getListaVuelos();
         $('#editDestinoVuelo').val(data[3]);
         $('#editHorarioVuelo').val(data[4]);
         $('#editCompaniaVuelo').val(data[5]);
-        
+
 
       });
+      //metodo que tiene de trigger el click en el boton "Aceptar cambios" del modal.
+      $('#update-data').on('click', function() {
 
-      $('#update-data').on('click',function(){  
-      
-      datos = {
-        editId: $('#editId').val(),
-        editVuelo: $('#editVuelo').val(),
-        editOrigenVuelo: $('#editOrigenVuelo').val(),
-        editDestinoVuelo: $('#editDestinoVuelo').val(),
-        editHorarioVuelo: $('#editHorarioVuelo').val(),
-        editCompaniaVuelo: $('#editCompaniaVuelo').val()
-      }
-      
-    $.ajax({
-        data: datos,
-        url: 'procesarEditar.php',
-        type:'POST',
-        beforeSend:function(){},
-        success:(response)=>{
-          id = datos.editId;
-          countVuelos = $('.id-vuelos').length;
-          for(i = 1; i < countVuelos; i++){
-            console.log(id);
-            if(i == id){
-              console.log("Reemplazado correctamente");
-              $(`tr#${i} #${datos.id}`).replaceWith(`
-              <tr class="id-vuelos" id='${datos.editId}'>
-                  <td>${datos.editId}</td>
-                  <td>${datos.editVuelo}</td>
-                  <td>${datos.editOrigenVuelo}</td>
-                  <td>${datos.editDestinoVuelo}</td>
-                  <td>${datos.editHorarioVuelo}</td>
-                  <td>${datos.editCompaniaVuelo}</td>
-                  <td>
-                    <button type="button" data-toggle="modal" data-target="editModal" class="btn btn-default btn-sm editbtn "><i class="glyphicon glyphicon-edit text-primary"></i></button>
-                    <button type="button" title="Eliminar" class="btn btn-default btn-sm btn-edit deletebtn" data-toggle="modal" data-target="#eliminarModal">
-                    <i class="glyphicon glyphicon-trash text-danger"></i>
-                    </button>
-                  </td>
-                  </tr>`)
-            }
-          }
-          //$("#cuerpo-tabla").load("procesarEditar.php");
-          console.log("Se editó correctamente");
+        datos = {
+          editId: $('#editId').val(),
+          editVuelo: $('#editVuelo').val(),
+          editOrigenVuelo: $('#editOrigenVuelo').val(),
+          editDestinoVuelo: $('#editDestinoVuelo').val(),
+          editHorarioVuelo: $('#editHorarioVuelo').val(),
+          editCompaniaVuelo: $('#editCompaniaVuelo').val()
         }
-      })
-      $('#editModal').modal('hide');
+        // metodo ajax donde proceso los datos editados
+        $.ajax({
+          data: datos,
+          url: 'procesarEditar.php',
+          type: 'POST',
+          beforeSend: function() {},
+          success: (response) => {
+            id = datos.editId;
+            countVuelos = $('.id-vuelos').length;
+            for (i = 1; i < countVuelos; i++) {
+              console.log(id);
+              if (i == id) { //Si coincide la id con el count del for, se reemplaza
+                // Uso el metodo replaceWith() varias veces porque con una vez todo junto tenía que poner los botones también y al hacer eso los eventos que tenía (abrir modal) desaparecía y no se podía editar de nuevo una vez guardados los cambios
+                $(`#id-${i}`).replaceWith(`
+                  <td id="id-${id}">${datos.editId}</td>`);
+                $(`#vuelo-${i}`).replaceWith(`<td id="vuelo-${i}">${datos.editVuelo}</td>`);
+                $(`#origen-${i}`).replaceWith(`<td id="origen-${i}">${datos.editOrigenVuelo}</td>`);
+                $(`#destino-${i}`).replaceWith(`<td id="destino-${i}">${datos.editDestinoVuelo}</td>`)
+                $(`#horario-${i}`).replaceWith(`<td id="horario-${i}">${datos.editHorarioVuelo}</td>`)
+                $(`#compania-${i}`).replaceWith(`<td id="compania-${i}">${datos.editCompaniaVuelo}</td>`)
+              }
+              console.log("Reemplazado correctamente");
+            }
+            console.log("Se editó correctamente");
+          }
+        })
+        $('#editModal').modal('hide');
+      });
     });
-    });
-    
   </script>
-    <!--Script para modal de eliminar -->
-    <script>
+  <!--Script para modal de eliminar -->
+  <script>
     $(document).ready(function() {
       $('.deletebtn').on('click', function() {
         $('#deleteModal').modal('show');
@@ -314,12 +305,12 @@ $vuelos = $db->getListaVuelos();
         console.log(data);
 
         $('#deleteId').val(data[0]);
-        
+
 
       });
     });
   </script>
-  
+
 </body>
 
 </html>
