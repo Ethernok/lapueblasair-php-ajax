@@ -266,12 +266,12 @@ $vuelos = $db->getListaVuelos();
           data: datos,
           url: 'procesarEditar.php',
           type: 'POST',
-          beforeSend: function() {},
           success: (response) => {
             id = datos.editId;
+            console.log(id);
             countVuelos = $('.id-vuelos').length;
             for (i = 1; i < countVuelos; i++) {
-              console.log(id);
+              
               if (i == id) { //Si coincide la id con el count del for, se reemplaza
                 // Uso el metodo replaceWith() varias veces porque con una vez todo junto tenía que poner los botones también y al hacer eso los eventos que tenía (abrir modal) desaparecía y no se podía editar de nuevo una vez guardados los cambios
                 $(`#id-${i}`).replaceWith(`
@@ -282,7 +282,7 @@ $vuelos = $db->getListaVuelos();
                 $(`#horario-${i}`).replaceWith(`<td id="horario-${i}">${datos.editHorarioVuelo}</td>`)
                 $(`#compania-${i}`).replaceWith(`<td id="compania-${i}">${datos.editCompaniaVuelo}</td>`)
               }
-              console.log("Reemplazado correctamente");
+              
             }
             console.log("Se editó correctamente");
           }
